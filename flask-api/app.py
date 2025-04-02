@@ -4,7 +4,7 @@ import pandas as pd
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/predict": {"origins": "*"}})
 
 # Load trained model and preprocessing tools
 model = joblib.load('laptop_price_model.pkl')

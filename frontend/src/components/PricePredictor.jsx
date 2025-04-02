@@ -15,12 +15,19 @@ const LaptopPricePredictor = () => {
   const [predictedPrice, setPredictedPrice] = useState(null);
 
   const handleChange = (e) => {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+    const {name, value} = e.target;
+
+      setFormData(
+        { 
+          ...formData, 
+          [name]: name === "Ram" || name === "ROM" ? parseInt(value) : value 
+        }
+      );
   };
 
   const handleSubmit = async () => {
       try {
-          const response = await axios.post("http://localhost:5000/predict", formData);
+          const response = await axios.post(`${import.meta.env.VITE_API_URL}/predict`, formData);
           setPredictedPrice(response.data.predicted_price);
       } catch (error) {
           console.error("Error fetching prediction:", error);
