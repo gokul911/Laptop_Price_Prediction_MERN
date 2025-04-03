@@ -30,8 +30,8 @@ const LaptopPricePredictor = () => {
           const response = await axios.post(`${import.meta.env.VITE_API_URL}/predict`, formData);
           setPredictedPrice(response.data.predicted_price);
       } catch (error) {
+          setPredictedPrice(0);
           console.error("Error fetching prediction:", error);
-          setPredictedPrice("Error fetching prediction");
       }
   };
 
@@ -58,8 +58,8 @@ const LaptopPricePredictor = () => {
           <option value="Intel Core i3">Intel Core i3</option>
           <option value="Intel Core i5">Intel Core i5</option>
           <option value="Intel Core i7">Intel Core i7</option>
-          <option value="Ryzen 5">Ryzen 5</option>
-          <option value="Ryzen 7">Ryzen 7</option>
+          <option value="Ryzen 5">AMD Ryzen 5</option>
+          <option value="Ryzen 7">AMD Ryzen 7</option>
         </select>
       </div>
 
@@ -89,7 +89,7 @@ const LaptopPricePredictor = () => {
         <select name="OS" onChange={handleChange}>
             <option value="">Select</option>
             <option value="Windows">Windows</option>
-            <option value="macOS">macOS</option>
+            <option value="macOS">Mac</option>
             <option value="Linux">Linux</option>
         </select>
       </div>
@@ -122,8 +122,12 @@ const LaptopPricePredictor = () => {
 
       <button onClick={handleSubmit}>Predict Price</button>
 
-      {predictedPrice !== null && (
-        <div id="priceResult">Predicted Price: ₹{predictedPrice}</div>
+      { predictedPrice !== null  ? (
+        predictedPrice !== 0 
+          ? <div id="priceResult"> Predicted Price: ₹{predictedPrice} </div> 
+          : <div id="priceResult">Wrong Specifications</div>
+      ) : (
+        <div id="priceResult">Enter Specifications</div>
       )}
     </div>
   );

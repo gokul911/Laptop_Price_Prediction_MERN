@@ -4,7 +4,7 @@ import pandas as pd
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, resources={r"/predict": {"origins": "*"}})
+CORS(app, resources={r"/predict": {"origins": ["http://localhost:5173", "https://laptop-price-prediction-mern.vercel.app"]}})
 
 # Load trained model and preprocessing tools
 model = joblib.load('laptop_price_model.pkl')
@@ -28,7 +28,7 @@ def predict():
                          'Ram', 'ROM', 'warranty', 'spec_rating', 'ppi']
         df = df[expected_cols]
 
-        # **Use the saved pipeline to transform + predict in one step**
+        # Use the saved pipeline to transform + predict in one step
         prediction = model.predict(df)
         
         return jsonify({'predicted_price': float(prediction[0])})
